@@ -13,6 +13,7 @@ const UserForm: React.FC<Props> = ({ selectedUser, isEditing, setEditing }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
+  // console.log('name',name);
   const dispatch = useDispatch();
 
   useEffect(() => {
