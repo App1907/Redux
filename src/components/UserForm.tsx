@@ -4,16 +4,15 @@ import { useDispatch } from 'react-redux';
 import { addUser, updateUser, User } from '../redux/actions/userActions';
 
 interface Props {
-  selectedUser: User | null;
-  isEditing: boolean;
-  setEditing: (value: boolean) => void;
+  selectedUser?: User | null;
+  isEditing?: boolean;
+  setEditing?: (value: boolean) => void;
 }
 
-const UserForm: React.FC<Props> = ({ selectedUser, isEditing, setEditing }) => {
+const UserForm: React.FC<Props> = ({ selectedUser, isEditing = false, setEditing }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
-  // console.log('name',name);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,7 +31,7 @@ const UserForm: React.FC<Props> = ({ selectedUser, isEditing, setEditing }) => {
 
     if (isEditing) {
       dispatch(updateUser(user));
-      setEditing(false);
+      setEditing && setEditing(false);
     } else {
       dispatch(addUser(user));
     }

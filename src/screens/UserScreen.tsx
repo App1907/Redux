@@ -1,20 +1,22 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, SafeAreaView } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { useDispatch } from 'react-redux';
 import UserForm from '../components/UserForm';
 import UserList from '../components/UserList';
-import { User } from '../redux/actions/userActions';
+import { fetchUsers } from '../redux/actions/userActions';
 
 const UserScreen = () => {
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [isEditing, setEditing] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
 
   return (
-    <SafeAreaView style={styles.container}>
     <View style={styles.container}>
-      <UserForm selectedUser={selectedUser} isEditing={isEditing} setEditing={setEditing} />
-      <UserList setSelectedUser={setSelectedUser} setEditing={setEditing} />
+      <UserForm />
+      <UserList />
     </View>
-    </SafeAreaView>
   );
 };
 
@@ -26,3 +28,4 @@ const styles = StyleSheet.create({
 });
 
 export default UserScreen;
+
