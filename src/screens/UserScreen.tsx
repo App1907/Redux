@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, SafeAreaView } from 'react-native';
 import { useDispatch } from 'react-redux';
 import UserForm from '../components/UserForm';
 import UserList from '../components/UserList';
@@ -13,10 +13,12 @@ const UserScreen = () => {
   }, [dispatch]);
 
   return (
+    <SafeAreaView style={styles.container}>
     <View style={styles.container}>
       <UserForm />
       <UserList />
     </View>
+    </SafeAreaView>
   );
 };
 
