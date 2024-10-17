@@ -1,12 +1,21 @@
-import { createStore, combineReducers } from 'redux';
-import userReducer from './reducers/userReducer';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import cartReducer from './reducers/cartReducer';
+import cartSaga from './saga/cartSaga';
+import { all } from 'redux-saga/effects';
+
+const sagaMiddleware = createSagaMiddleware();
 
 const rootReducer = combineReducers({
-  users: userReducer,
+  cart: cartReducer
 });
 
-const store = createStore(rootReducer);
+function* rootSaga() {
+  yield all([cartSaga()]);
+}
 
-export type RootState = ReturnType<typeof rootReducer>;
+const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
+
+sagaMiddleware.run(rootSaga);
 
 export default store;
