@@ -1,30 +1,27 @@
-// screens/HomeScreen.tsx
 import React from 'react';
-import { View, ScrollView, SafeAreaView } from 'react-native';
-import Header from '../components/Header';
-import ProductCard from '../components/ProductCard';
-import { useSelector } from 'react-redux';
-
-const products = [
-  { id: 1, name: 'Samsung Mobile', color: 'white', price: 30000 },
-  { id: 2, name: 'Nokia Mobile', color: 'black', price: 30000 },
-  { id: 3, name: 'Apple iPhone', color: 'green', price: 130000 }
-];
+import { View, Text, Button } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import { setUser, clearUser } from '../redux/slices/userSlice';
 
 const HomeScreen = () => {
-  const cartCount = useSelector((state: any) => state.cart.count);
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user);
+
+  const handleLogin = () => {
+    dispatch(setUser({ id: '1', name: 'John Doe', email: 'john@example.com' }));
+  };
+
+  const handleLogout = () => {
+    dispatch(clearUser());
+  };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-    <View style={{ flex: 1 }}>
-      <Header cartCount={cartCount} />
-      <ScrollView>
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </ScrollView>
+    <View>
+      <Text>User: {user.name}</Text>
+      <Button title="Login" onPress={handleLogin} />
+      <Button title="Logout" onPress={handleLogout} />
     </View>
-    </SafeAreaView>
   );
 };
 

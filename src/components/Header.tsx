@@ -1,30 +1,25 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const Header = ({ cartCount }: { cartCount: number }) => {
+const Header = () => {
   return (
     <View style={styles.header}>
-      <Text style={styles.headerText}>Header</Text>
-      <Text style={styles.cartCount}>{cartCount}</Text>
+      <Text style={styles.title}>My App</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: '#4A90E2',
-    padding: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between'
+    height: 60,
+    backgroundColor: '#f8f8f8',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  headerText: {
-    fontSize: 24,
-    color: '#fff'
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
   },
-  cartCount: {
-    fontSize: 24,
-    color: '#fff'
-  }
 });
 
 export default Header;
