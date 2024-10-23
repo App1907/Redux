@@ -1,4 +1,3 @@
-// screens/HomeScreen.tsx
 import React from 'react';
 import { View, ScrollView, SafeAreaView } from 'react-native';
 import Header from '../components/Header';
