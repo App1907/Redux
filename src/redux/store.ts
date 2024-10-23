@@ -1,21 +1,11 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
-import createSagaMiddleware from 'redux-saga';
-import cartReducer from './reducers/cartReducer';
-import cartSaga from './saga/cartSaga';
-import { all } from 'redux-saga/effects';
+import { configureStore } from '@reduxjs/toolkit';
+import itemReducer from './slice';
+import logger from 'redux-logger';
 
-const sagaMiddleware = createSagaMiddleware();
-
-const rootReducer = combineReducers({
-  cart: cartReducer
+export const store = configureStore({
+  reducer: {
+    items: itemReducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(logger),
 });
-
-function* rootSaga() {
-  yield all([cartSaga()]);
-}
-
-const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
-
-sagaMiddleware.run(rootSaga);
-
-export default store;

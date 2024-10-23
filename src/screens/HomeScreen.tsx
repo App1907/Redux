@@ -1,31 +1,59 @@
-// screens/HomeScreen.tsx
-import React from 'react';
-import { View, ScrollView, SafeAreaView } from 'react-native';
-import Header from '../components/Header';
-import ProductCard from '../components/ProductCard';
-import { useSelector } from 'react-redux';
-
-const products = [
-  { id: 1, name: 'Samsung Mobile', color: 'white', price: 30000 },
-  { id: 2, name: 'Nokia Mobile', color: 'black', price: 30000 },
-  { id: 3, name: 'Apple iPhone', color: 'green', price: 130000 }
-];
+import React, { useEffect } from 'react';
+import { View, Text, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchItems } from '../redux/slice';
+import ItemCard from '../components/ItemCard';
 
 const HomeScreen = () => {
-  const cartCount = useSelector((state: any) => state.cart.count);
+  const dispatch = useDispatch();
+  const { data, loading, error } = useSelector((state: any) => state.items);
+
+  useEffect(() => {
+    dispatch(fetchItems());
+  }, [dispatch]);
+
+  if (loading) {
+    return <ActivityIndicator size="large" style={styles.loader} />;
+  }
+
+  if (error) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>{error}</Text>
+      </View>
+    );
+  }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-    <View style={{ flex: 1 }}>
-      <Header cartCount={cartCount} />
-      <ScrollView>
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </ScrollView>
-    </View>
-    </SafeAreaView>
+    <FlatList
+      data={data}
+      renderItem={({ item }) => <ItemCard item={item} />}
+      keyExtractor={(item) => item.id.toString()}
+      contentContainerStyle={styles.listContainer}
+    />
   );
 };
 
+const styles = StyleSheet.create({
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 18,
+  },
+  listContainer: {
+    paddingHorizontal: 16,
+    paddingTop: 16,
+  },
+});
+
 export default HomeScreen;
+
